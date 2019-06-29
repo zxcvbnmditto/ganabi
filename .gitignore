@@ -8,3 +8,8 @@ CMakeFiles
 *.pyc
 data
 output
+
+*.o
+*.a
+*.cmake
+*.internal
