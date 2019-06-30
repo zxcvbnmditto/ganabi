@@ -4,8 +4,11 @@ def find_newrunID(outdir):
     run_names = [fname for fname in os.listdir(outdir) if "run" in fname]
     #possible awkward bug: if you put a file inside outdir that is not
     #of the form "run" followed by a 3 digit number
-    run_names.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
-    lastrunID = int(''.join(filter(str.isdigit, run_names[-1])))
+
+    lastrunID = -1
+    if len(run_names) > 0:
+        run_names.sort(key=lambda f: int(''.join(filter(str.isdigit, f))))
+        lastrunID = int(''.join(filter(str.isdigit, run_names[-1])))
 
     return lastrunID + 1 #newrunID
 

@@ -2,6 +2,8 @@ from utils import parse_args
 import importlib
 import load_data
 import gin
+# import keras
+
 
 @gin.configurable
 class Trainer(object):
@@ -12,13 +14,15 @@ class Trainer(object):
                  metrics=None,
                  batch_size=None,
                  epochs=None):
+
         self.optimizer = optimizer
+        self.optimizer.get_config()
         self.loss = loss
         self.metrics = metrics
         self.batch_size = batch_size
         self.epochs = epochs
 
-def main(data, args):
+def main(train_data_generator, val_data_generator, args):
     trainer = Trainer(args) # gin configured
 
     #FIXME: combine into one line once stuff works
@@ -31,11 +35,10 @@ def main(data, args):
             metrics = trainer.metrics)
 
     tr_history = model.fit_generator(
-            generator = data.generator('train'),
+            generator = train_data_generator,
             verbose = 2, # one line per epoch
-            batch_size = trainer.batch_size, 
-            epochs = trainer.epochs, # = total data / batch_size
-            validation_split = 0.1, # fraction of data used for val
+            epochs = trainer.epochs,
+            validation_data = val_data_generator,
             shuffle = True)
               
     return model

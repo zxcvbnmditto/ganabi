@@ -9,21 +9,43 @@ import train
 #import evaluate
 import tensorflow as tf
 import keras
+import gin
+from DataGenerator import DataGenerator
+import os
+import numpy as np
+
+# Move to utils later on
+def bind_gin_external_functions():
+    gin.external_configurable(keras.optimizers.Adam, module='keras.optimizers')
+    gin.external_configurable(keras.losses.categorical_crossentropy, module='keras.losses')
 
 def main():
-    #parse arguments
-    args = parse_args.parse_with_resolved_paths()    
+    # parse arguments
+    args = parse_args.parse()
+    args = parse_args.resolve_configpath(args)
     args = dir_utils.resolve_run_directory(args)
 
-    import pdb; pdb.set_trace()
-    #create/load data
-    data = load_data.main(args)
+    # bind external functions used by gin
+    bind_gin_external_functions()
 
-    #train model/load model
-    model = train.main(data, args)
+    # create/load data
+    gin.parse_config_file(args.configpath)
+    # data = load_data.main(args)
 
-    #evaluate model
-    evaluate.main(data, model, args)
+    # Assume u have already run the script create_npy_data.py 
+    print("----------------- Create Generators -----------------")
+    default_path = '/home/james/Coding/ganabi/data'
+    train_generator = DataGenerator(os.path.join(default_path, 'train'))
+    validation_generator = DataGenerator(os.path.join(default_path, 'validation'))
+    test_generator = DataGenerator(os.path.join(default_path, 'test'))
+
+    # train model/load model
+    print("----------------- Start Training -----------------")
+    model = train.main(train_generator, validation_generator, args)
+
+    # # evaluate model
+    # evaluate.main(data, model, args)
+
 
 if __name__ == "__main__":
     main()
