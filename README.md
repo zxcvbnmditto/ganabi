@@ -22,7 +22,16 @@ In the first project, we will be creating a baseline agent that is aimed to be s
 ### Run the project
 ```bash
 % Latest code at branch james_setup
+% Please first modify the default_path in create_npy.py & run_experiment.py
+default_path = '<path-to-project>/ganabi/data'
 
+
+source <path-to-virtualenv-python>/bin/activate
+
+% Create npy files
+python create_npy.py
+
+% Show the code is working
 python run_experiment.py -newrun --mode="naive_mlp" --configpath="./naive_mlp.config.gin"
 ```
 
