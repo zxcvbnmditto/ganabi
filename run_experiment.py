@@ -3,7 +3,7 @@
 # by splitting up the tasts into separate scripts/modules.
 
 #import statements
-from utils import parse_args, dir_utils
+from utils import parse_args, dir_utils, npy_utils
 import load_data
 import train
 #import evaluate
@@ -23,21 +23,21 @@ def main():
     # parse arguments
     args = parse_args.parse()
     args = parse_args.resolve_configpath(args)
+    args = parse_args.resolve_agentname(args)
     args = dir_utils.resolve_run_directory(args)
+    args = dir_utils.resolve_npy_directory(args)
 
     # bind external functions used by gin
     bind_gin_external_functions()
 
     # create/load data
     gin.parse_config_file(args.configpath)
-    # data = load_data.main(args)
 
     # Assume u have already run the script create_npy_data.py 
     print("----------------- Create Generators -----------------")
-    default_path = '/home/james/Coding/ganabi/data'
-    train_generator = DataGenerator(os.path.join(default_path, 'train'))
-    validation_generator = DataGenerator(os.path.join(default_path, 'validation'))
-    test_generator = DataGenerator(os.path.join(default_path, 'test'))
+    train_generator = DataGenerator(os.path.join(args.datadir, 'train'), args.agentname)
+    validation_generator = DataGenerator(os.path.join(args.datadir, 'validation'), args.agentname)
+    test_generator = DataGenerator(os.path.join(args.datadir, 'test'), args.agentname)
 
     # train model/load model
     print("----------------- Start Training -----------------")

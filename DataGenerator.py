@@ -11,12 +11,13 @@ import keras
 import os, glob, re
 
 class DataGenerator(keras.utils.Sequence):
-    def __init__(self, default_path):
+    def __init__(self, default_path, agentname):
         self.batch_size = 32
         self.shuffle = True
 
-        self.obs_path = os.path.join(default_path, 'obs')
-        self.act_path = os.path.join(default_path, 'act')
+        self.agent_name = agentname
+        self.obs_path = os.path.join(os.path.join(default_path, agentname), 'obs')
+        self.act_path = os.path.join(os.path.join(default_path, agentname), 'act')
         
         # Read in all filenames
         self.filenames, self.max_steps = self.get_filenames()
@@ -37,6 +38,7 @@ class DataGenerator(keras.utils.Sequence):
                 filenames.append(file)
                 max_steps.append(max_game_step)
 
+
         os.chdir(origin_path) # Avoid Incorrect Assumption In The Future
         return filenames, max_steps
 
@@ -50,11 +52,18 @@ class DataGenerator(keras.utils.Sequence):
         obs_full = np.load(os.path.join(self.obs_path, filename)) 
         act_full = np.load(os.path.join(self.act_path, filename)) 
 
-        obs = np.empty((self.batch_size, np.shape(obs_full)[-1]))
-        act = np.empty((self.batch_size, np.shape(act_full)[-1]))
+
+        obs = np.zeros((self.batch_size, np.shape(obs_full)[-1]))
+        act = np.zeros((self.batch_size, np.shape(act_full)[-1]))
         for i, index in enumerate(indices):
             obs[i, :] = obs_full[index, :] 
             act[i, :] = act_full[index, :]
+
+        if np.all(obs==0):
+            raise("Bad obs {} {}".format(filename, indices))
+        
+        if np.all(act==0):
+            raise("Bad act {} {}".format(filename, indices))
 
         return obs, act 
     
@@ -74,15 +83,17 @@ class DataGenerator(keras.utils.Sequence):
 
     def on_epoch_end(self):
         # print("-----------On Epoch End------------------")
+        tmp = list(zip(self.filenames, self.max_steps))
         if self.shuffle == True:
-            random.shuffle(self.filenames)
+            random.shuffle(tmp)
+        
+        self.filenames, self.max_steps = zip(*tmp)
+        
 
 
-if __name__ == "__main__":
-    # Hyper param
-    default_path = '/home/james/Coding/ganabi/data'
-    
+if __name__ == "__main__":    
     args = parse_args.parse()
+    args = parse_args.resolve_datapath(args)
     args = parse_args.resolve_configpath(args)
 
-    train_generator = DataGenerator(os.path.join(default_path, 'train'))
+    train_generator = DataGenerator(os.path.join(args.datadir, 'train'))

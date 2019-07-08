@@ -2,8 +2,7 @@ from utils import parse_args
 import importlib
 import load_data
 import gin
-# import keras
-
+from keras import callbacks 
 
 @gin.configurable
 class Trainer(object):
@@ -21,6 +20,17 @@ class Trainer(object):
         self.metrics = metrics
         self.batch_size = batch_size
         self.epochs = epochs
+        ckpt_filename = args.ckptdir + "/" + args.agentname + ".{epoch:02d}-{val_loss:.2f}.hdf5"
+        tensorboard_filename = args.resultdir + '/{epoch:02d}-{val_loss:.2f}'
+        self.callbacks = [
+            callbacks.TerminateOnNaN(),
+            callbacks.ModelCheckpoint(
+                ckpt_filename, monitor='val_acc', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=10),
+            # callbacks.EarlyStopping(
+            #     monitor='val_acc', min_delta=0.2, patience=20, verbose=1, mode='auto', baseline=0.5, restore_best_weights=False),
+            callbacks.TensorBoard(
+                log_dir=args.resultdir, batch_size=self.batch_size, update_freq='epoch')
+        ]
 
 def main(train_data_generator, val_data_generator, args):
     trainer = Trainer(args) # gin configured
@@ -36,10 +46,11 @@ def main(train_data_generator, val_data_generator, args):
 
     tr_history = model.fit_generator(
             generator = train_data_generator,
-            verbose = 2, # one line per epoch
+            verbose = 1, # one line per epoch
             epochs = trainer.epochs,
             validation_data = val_data_generator,
-            shuffle = True)
+            shuffle = True,
+            callbacks = trainer.callbacks)
               
     return model
 
