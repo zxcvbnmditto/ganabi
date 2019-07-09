@@ -4,17 +4,17 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/canonical_encoders.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/canonical_encoders.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_card.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_card.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_game.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_game.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_hand.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_hand.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_history_item.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_history_item.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_move.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_move.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_observation.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_observation.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/hanabi_state.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_state.cc.o"
-  "/home/aronsar/ganabi/hanabi-env/hanabi_lib/util.cc" "/home/aronsar/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/util.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/canonical_encoders.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/canonical_encoders.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_card.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_card.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_game.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_game.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_hand.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_hand.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_history_item.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_history_item.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_move.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_move.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_observation.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_observation.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/hanabi_state.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/hanabi_state.cc.o"
+  "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/util.cc" "/Users/jyoti/ganabi/hanabi-env/hanabi_lib/CMakeFiles/hanabi.dir/util.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

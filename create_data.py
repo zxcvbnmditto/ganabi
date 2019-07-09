@@ -40,8 +40,8 @@ class Dataset(object):
     def __init__(self, args,
             game_type='Hanabi-Full',
             num_players=2,
-            num_unique_agents=6,
-            num_games=None):
+            num_unique_agents=1,
+            num_games=100):
         
         self.game_type = game_type
         self.num_players = num_players
@@ -74,7 +74,9 @@ class Dataset(object):
                         raw_data[playing_agent][game_num][0].append(
                                 observation['vectorized'])
                         raw_data[playing_agent][game_num][1].append(action_vec)
-
+			#print(action)
+			#print("Action Vector")
+			#print(action_vec)
                         if observation['current_player'] == agent_id:
                             assert action is not None
                             current_player_action = action
@@ -83,9 +85,9 @@ class Dataset(object):
 
                         observations, _, game_done, _ = self.environment.step(
                                 current_player_action)
-                        if game_done:
+			#print(observations)
+			if game_done:
                             break
-
         return raw_data
 
 def main(args):
@@ -97,7 +99,6 @@ def main(args):
             data_creator.num_players,
             data_creator.num_unique_agents,
             data_creator.num_games)
-
     raw_data = data_creator.create_data()
     pickle.dump(raw_data, open(args.datapath, "wb"))
 

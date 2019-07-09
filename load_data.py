@@ -15,8 +15,8 @@ class Dataset(object):
     def __init__(self, 
             game_type='Hanabi-Full',
             num_players=2,
-            num_unique_agents=6,
-            num_games=150):
+            num_unique_agents=1,
+            num_games=100):
 
         self.game_type = game_type
         self.num_players = num_players
@@ -34,11 +34,11 @@ class Dataset(object):
         for agent in raw_data:
             if agent == test_agent:
                 continue
-            split_idx = int(0.9 * len(raw_data[agent]))
+            split_idx = int(0.1 * len(raw_data[agent]))
             self.train_data[agent] = raw_data[agent][:split_idx]
             self.validation_data[agent] = raw_data[agent][split_idx:]
         
-        self.test_data[test_agent] = raw_data[test_agent]
+        self.test_data[test_agent] = raw_data[test_agent][split_idx:]
 
 
     def generator(self, batch_type='train'):
@@ -92,15 +92,23 @@ def main(args):
         data.num_games)
 
     try:
-        raw_data = pickle.load(open(args.datapath, "rb"), encoding='latin1')
+        raw_data = pickle.load(open(args.datapath, "rb"))
 
     except IOError:
         call("python create_data.py --datapath " + args.datapath, shell=True)
-        raw_data = pickle.load(open(args.datapath, "rb"), encoding='latin1')
+        raw_data = pickle.load(open(args.datapath, "rb"))
     
     data.read(raw_data)
-    
-    import pdb; pdb.set_trace()
+    """for agent in data.test_data:
+        for game in data.test_data[agent]:
+            print("Observations")
+            print(game[0][1])
+            print("Action")
+            print(game[1][1])"""
+    #import pdb; pdb.set_trace()
+    #print(data.test_data)
+    #refined_data = data.generator()
+    #print(refined_data[1])
     return data
 
 
