@@ -20,8 +20,8 @@ class Trainer(object):
         self.metrics = metrics
         self.batch_size = batch_size
         self.epochs = epochs
-        ckpt_filename = args.ckptdir + "/" + args.agentname + ".{epoch:02d}-{val_loss:.2f}.hdf5"
-        tensorboard_filename = args.resultdir + '/{epoch:02d}-{val_loss:.2f}'
+        ckpt_filename = args.ckptdir + "/" + args.agentname + "-{epoch:02d}-{val_acc:.2f}.hdf5"
+        tensorboard_filename = args.resultdir + '/{epoch:02d}-{val_acc:.2f}'
         self.callbacks = [
             callbacks.TerminateOnNaN(),
             callbacks.ModelCheckpoint(
@@ -46,7 +46,7 @@ def main(train_data_generator, val_data_generator, args):
 
     tr_history = model.fit_generator(
             generator = train_data_generator,
-            verbose = 1, # one line per epoch
+            verbose = 2, # one line per epoch
             epochs = trainer.epochs,
             validation_data = val_data_generator,
             shuffle = True,
