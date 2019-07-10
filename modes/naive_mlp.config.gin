@@ -6,7 +6,7 @@ import naive_mlp
 create_data.Dataset.game_type = 'Hanabi-Full'
 create_data.Dataset.num_players = 2
 create_data.Dataset.num_unique_agents = 1
-create_data.Dataset.num_games = 10
+create_data.Dataset.num_games = 100
 
 
 # configure the trainer

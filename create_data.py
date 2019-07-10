@@ -59,7 +59,7 @@ class Dataset(object):
                 num_unique_agents=1,
                 num_games=100,
                 split_ratio=[0.1, 0.8, 0.1],
-                save_npy=True):
+                save_npy=False):
 
         # Old
         self.game_type = game_type
@@ -78,7 +78,7 @@ class Dataset(object):
         self.act_dim = -1
         
         # Old
-        self.environment = rl_env.make(game_type, num_players=self.num_players)        
+        self.environment = rl_env.make(game_type, num_players=self.num_players)
         self.agent_config = {
                 'players': self.num_players,
                 'num_moves': self.environment.num_moves(),
@@ -233,7 +233,10 @@ def main(args):
 if __name__ == '__main__':
     args = parse_args.parse()
     args = parse_args.resolve_configpath(args)
-    args = dir_utils.resolve_npy_directory(args)
+    args = parse_args.resolve_datapath(args)
+    
+    if args.newnpy:
+        remove_npy_data(args)
 
     # FIXME: Config file not working
     # gin.parse_config_file('naive_mlp.config.gin')

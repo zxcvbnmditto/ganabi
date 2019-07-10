@@ -30,11 +30,6 @@ def parse():
 
     parser.add_argument('--outdir',
                         default='./output/')
-
-    parser.add_argument('--pklfile',
-                        default='Hanabi-Full_2_6_150.pkl',
-                        help="Set as the name of the raw pickle file. Used to "
-                             "create numpy files.")
     
     parser.add_argument('--agentname',
                         default='rainbow_agent_1',

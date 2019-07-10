@@ -9,16 +9,49 @@ import random
 import numpy as np
 import keras
 import os, glob, re
+from functools import reduce
+
+
+class DataGeneratorMananger(object):
+    def __init__(self, default_path, agent_name):
+        self.train_generator = None
+        self.validation_generator = None
+        self.test_generator = None
+
+        self.default_path = default_path
+        self.agent_name = agent_name
+        self.setup()
+
+
+    def setup(self):
+        train_datadir = reduce(os.path.join, [self.default_path, "train", self.agent_name])
+        val_datadir = reduce(os.path.join, [self.default_path, "validation", self.agent_name])
+        test_datadir = reduce(os.path.join, [self.default_path, "test", self.agent_name])
+        
+        self.train_generator = DataGenerator(train_datadir)
+        self.validation_generator = DataGenerator(val_datadir)
+        self.test_generator = DataGenerator(test_datadir)
+
+
+    def get(self, type='train'):
+        if type == 'train':
+            return self.train_generator
+        elif type == 'validation':
+            return self.validation_generator
+        elif type == 'test':
+            return self.test_generator
+        else:
+            raise("Incorrect Generator Type: {}".format(type))
+
 
 class DataGenerator(keras.utils.Sequence):
-    def __init__(self, default_path, agentname):
+    def __init__(self, default_path):
         self.batch_size = 32
         self.shuffle = True
 
-        self.agent_name = agentname
-        self.obs_path = os.path.join(os.path.join(default_path, agentname), 'obs')
-        self.act_path = os.path.join(os.path.join(default_path, agentname), 'act')
-        
+        self.obs_path = os.path.join(default_path, 'obs')
+        self.act_path = os.path.join(default_path, 'act')
+
         # Read in all filenames
         self.filenames, self.max_steps = self.get_filenames()
         self.num_files = len(self.filenames) 
@@ -51,7 +84,6 @@ class DataGenerator(keras.utils.Sequence):
         indices, filename = self.batch_sampler(index)
         obs_full = np.load(os.path.join(self.obs_path, filename)) 
         act_full = np.load(os.path.join(self.act_path, filename)) 
-
 
         obs = np.zeros((self.batch_size, np.shape(obs_full)[-1]))
         act = np.zeros((self.batch_size, np.shape(act_full)[-1]))
@@ -88,7 +120,6 @@ class DataGenerator(keras.utils.Sequence):
             random.shuffle(tmp)
         
         self.filenames, self.max_steps = zip(*tmp)
-        
 
 
 if __name__ == "__main__":    

@@ -30,18 +30,13 @@ def resolve_run_directory(args):
                 "or provide paths for both --ckptdir and --resultdir")
     return args
 
-def resolve_npy_directory(args):
-    if args.newnpy:
-        for split_type in ['train', 'validation', 'test']:
-            try:
-                print("Removing {}".format((os.path.join(args.datadir, split_type))))
-                if os.path.isdir(os.path.join(args.datadir, split_type)):
-                    shutil.rmtree(os.path.join(args.datadir, split_type))
-            except:
-                print("Error Occur when removing old numpy directory -- {}".format(os.path.join(args.datadir, split_type)))
+def remove_npy_data(args):
+    for split_type in ['train', 'validation', 'test']:
+        target_remove_path = os.path.join(args.datadir, split_type)
+        try:
+            print("Removing {}".format(target_remove_path))
+            if os.path.isdir(target_remove_path):
+                shutil.rmtree(target_remove_path)
+        except:
+            print("Error occurs when removing old numpy directory -- {}".format(target_remove_path))
 
-        # FIXME: refactor args.pklfile
-        if not os.path.isfile(os.path.join(args.datadir, args.pklfile)):
-            raise ValueError("Cannot Find the raw pickle file -- {}".format(os.path.join(args.datadir, args.pklfile)))
-
-    return args
