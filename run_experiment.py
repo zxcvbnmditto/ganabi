@@ -13,6 +13,9 @@ import gin
 from DataGenerator import DataGenerator
 import os
 import numpy as np
+import sys
+sys.path.append('./modes') # Temporary Fix for config.gin
+
 
 # Move to utils later on
 def bind_gin_external_functions():
